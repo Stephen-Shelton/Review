@@ -1,0 +1,15 @@
+/*** Server ***/
+
+Node
+  what is a server?
+  what is Node?
+  Streams
+  How does Node compare to other server-side technologies
+  why Node is useful, why it might suck
+  Useful packages
+    Node-inspector
+    Nodemon
+Express
+  vs. HAPI, Koa, and others
+  Middleware
+  Router

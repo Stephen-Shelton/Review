@@ -1,0 +1,17 @@
+/*** Testing and writing testable code ***/
+
+Try / Catch
+Debugging with Chrome Dev Tools
+Black-box vs white-box
+Regression testing
+Unit testing vs integration testing
+Smoke-testing vs end-to-end testing
+Testing libraries
+  selenium
+  mocha, chai, etc
+    can you use these on the fly? no harness or setup provided...
+Continuous integration
+  online CI services
+  Jenkins
+Mocking & Stubbing
+How testing improves system design

@@ -1,0 +1,12 @@
+/*** Operationalizing / Productionizing your system ***/
+
+Scaling
+  vertical scaling
+  horizontal scaling
+  sharding
+  caching
+  Database replication
+Monitoring
+Configuration management
+Branch management
+Release management

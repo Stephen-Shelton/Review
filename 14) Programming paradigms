@@ -1,0 +1,13 @@
+
+/*** Programming paradigms ***/
+
+imperative vs. declarative
+object-oriented
+functional programming
+  functors / monads
+  higher-order functions
+  lambda expressions
+  Reactive programming
+recursion
+  dynamic programming / memoization
+  Limiting the call stack

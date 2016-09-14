@@ -1,0 +1,18 @@
+/*** How computers work ***/
+
+Memory
+  Speed of different data storage options
+  What does the OS really do when your program instantiates an object?
+  Memory management
+    What does "swapping to disk" mean? Why would you care?
+    Garbage collecting
+  Index / Search
+Binary stuff
+  Bit-twiddling
+  What are "floating point errors"?
+Code interpretation and compilation
+Call stacks
+  What is a stack overflow?
+common unix command line utilities
+How does the internet work
+What is the 'full stack'?

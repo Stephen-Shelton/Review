@@ -1,0 +1,47 @@
+/*** Databases ***/
+
+What does "ACID compliant" mean?
+Database transactions
+Migrations
+ORMs
+
+SQL databases
+
+  Popular SQL databases and their differences
+    mySQL
+    PostgreSQL
+    Oracle
+    SQLite
+    what is a "relational" database
+
+  what's a B-Tree, and why does it matter for a database?
+  Primary key vs foreign key
+  Schema design
+    normalization
+    denormalization
+  Basic select statements
+  Joins
+  Sub-selects
+  Grouping
+
+NoSQL databases
+
+MongoDB
+  why is Mongo useful, why it might suck
+  what's a "document database"? how does it work?
+  aggregation pipeline
+  Mongo indexing
+  BSON
+Memcache
+Redis
+  Serialized / Queued / Atomic transactions
+  why is Redis useful, why it might suck
+  the most-useful Redis data types
+  the most-useful Redis operations
+CouchDB
+  MapReduce
+LevelDB
+Cassandra
+Riak
+Neo4j
+HDFS / HBase with Hadoop

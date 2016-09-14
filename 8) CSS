@@ -1,0 +1,15 @@
+/*** CSS ***/
+
+what does "cascading" mean?
+how do you organize your stylesheets, and why?
+selectors
+  native JS selectors
+  jQuery selectors
+computing specificity
+pseudo-classes
+box model
+how does CSS help to make a responsive web app?
+CSS libraries
+  Bootstrap
+  Material-UI
+  Normalize.css and ResetCSS

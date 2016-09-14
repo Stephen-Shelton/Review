@@ -1,0 +1,17 @@
+/*** Package management ***/
+
+apt-get
+brew
+npm
+
+/*** Dependency management ***/
+
+Webpack
+Browserify
+nvm
+
+/*** Deployment ***/
+
+AWS
+Digital Ocean
+Heroku

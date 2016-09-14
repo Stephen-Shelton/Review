@@ -1,0 +1,32 @@
+/*** System design ***/
+
+Client-server
+Workers
+Service-oriented architecture
+Multi-tier architecture
+MVC
+  MV* (pronounced "MV-star")
+asynchronous programming
+  callback hell
+  multi-threading
+  race condition
+Pub/sub
+Middleware
+ReST
+  HTTP "verbs"
+  CRUD
+what should you consider when you design an API?
+DRY (related to "single source of truth")
+single-responsibility principle
+idempotency
+loose coupling / separation of concerns
+  cohesion versus coupling
+  statelessness
+    "shared-nothing" architecture
+abstraction
+contracts (interfaces) between components
+  modules
+  classes
+  duck typing
+  data-hiding
+  interface versus implementation

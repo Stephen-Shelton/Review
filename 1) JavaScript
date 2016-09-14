@@ -1,0 +1,46 @@
+/*** JavaScript ***/
+
+pros and cons of JavaScript
+vs. other languages
+event loop
+scope / closures
+loops
+hoisting
+instantiation patterns
+truthy and falsy
+type coercion
+objects
+  prototypes
+this
+bind / currying
+
+Best practices
+  Short-circuiting
+  Switch / case
+  Ternary operator
+  Variables in for loops
+  Recursion call stacks
+  Namespacing
+
+ES6
+  let vs const vs var
+  arrow functions
+  promises
+  generators
+  iterators
+  for-of vs. for-in loop
+  classes
+  destructuring
+  string interpolation
+  modules
+  transpiling
+  Lesser-known
+    Maps / Sets
+    Proxies
+    Reflections
+  Augmented methods
+    Math
+    Number
+    Array
+    Object (especially Object.assign)
+    Strings and Unicode

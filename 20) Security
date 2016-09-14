@@ -1,0 +1,10 @@
+/*** Security ***/
+
+Hashing vs encryption
+Authentication vs authorization
+Common encryption ciphers
+Public-Private Key Encryption
+oAuth
+Same-origin policy
+XSS
+CORS
