@@ -1,0 +1,100 @@
+******************
+/**** Scopes ****/
+******************
+Lexical scope: distinct areas in your code where you can access variables. A new lexical scope is created every time you declare a function. Inner lexical scopes can access variables defined in the scope at hand and variables defined in outer lexical scopes, however, outer lexical scopes cannot access variables from inner lexical scopes.
+
+variables w/o var are assigned to the global scope, never do this!
+e.g. someVariable = 5; <-- missing var, let, const
+
+Remember, only functions create new scopes, not the bodies of loops, if statements, etc.
+
+Execution contexts: aka in-memory scopes, differ from lexical scopes, execution contexts are built as the code runs and are created every time you run a function. For each lexical scope, there may be many execution contexts/in-memory scopes if a function is invoked many times. Execution contexts store variables and their values for a given function invocation.
+
+Remember, lexical scopes are created during function declarations, whereas execution contexts/in-memory scopes are created during function invocations. If a function is run multiple times, the lexical scope is constant but each execution context/in-memory scope is tied to each instance of the run function.
+
+In-memory objects: different than execution contexts/in-memory scopes, which are created only when a function runs. In-memory objects can be created whenever with whatever key value pairs you want. The main similarity is that execution contexts and in-memory objects store variables and associated values.
+
+********************
+/**** Closures ****/
+********************
+Closure is any private variables/values/functions defined in a function/inner lexical scope that remain available in an outer scope after that function runs. Contexts/scopes for functions will always be created as a child of the context/scope that it was defined within, thus where a function is defined determines lexical scope and the variables it has access to.
+
+3 techniques to retain access to an inner function after its outer function that created it has been called:
+  1) setTimeout
+  2) returning the inner function when the outer function is invoked
+  3) saving the inner function to a global variable
+
+******************************
+/**** the 'this' keyword ****/
+******************************
+Only 2 major differences between a regular parameter and the parameter 'this'.
+  1) you don't get to pick the name of the parameter this, it's always 'this'
+  2) you bind values to 'this' a bit differently from how you bind values to other parameters
+
+'this' is an identifier that gets a value bound to it, much like a variable. 'this' gets bound to objects.
+
+example:
+    var obj = {
+      fn: function(a,b) {
+        log(this);
+      }
+    };
+
+    obj.fn(3,4); <--where 'this' is determined!
+
+    The object that a function/method is looked up upon when it's being invoked is the object the keyword 'this' is bound to. In the case above, obj looks up fn and invokes fn, so 'this' inside fn refers to obj, the object 'left of the dot'. The 'left of the dot/brackets' concept applies to 90% of situations when determining what 'this' is bound to. Remember, it's the object left of the dot/bracket during the method/function's invocation that matters, not where the method/function is defined or declared.
+
+Can override 'this' binding with apply, call, or bind methods of Function.prototype.
+example:
+r.method.call(y,g,b) <-- y is the object 'this' is bound to, NOT r
+
+Need to be careful with callbacks (functions passed to other functions as arguments) because they can change what 'this' refers to
+
+  e.g. setTimeout(r.method, 1000) <-- 'this' refers to global scope based on how setTimeout invokes callbacks. r.method is simply a function reference, but r is not being referenced at time of method's actual invocation.
+
+To preserve 'this' use an anonymous function wrapper (other ways are mentioned in the js garden notes also).
+
+  e.g. setTimeout( () => { r.method() },1000 ); <--preserves 'this' within method being bound to r since object r looks up method at the time of method's invocation.
+
+When 'this' is defined in a function used as a constructor, 'this' gets bound to an entirely new object that gets created automatically.
+  e.g. new r.method(g,b); <-- instance of r.method is a new object bound to 'this'
+'new' keyword used in pseudoclassical instantiation patterns for objects
+
+****************************
+/**** Prototype Chains ****/
+****************************
+Prototype chains allow us to create objects that inherit properties from other objects without forcing us to copy properties one from object to another.
+
+example:
+    var gold = {a:1};
+    var rose = Object.create(gold); <--creates an ongoing lookup-time delegation between gold and rose objects. Should a property lookup fail for rose, it'll look to gold, its prototype, to see if the property exists. Can see what an object's prototype is via objectName.__proto__
+
+Top-level object is Object.prototype, it's the last place where property lookups will take place in case of failed property lookups on child objects.
+
+object.constructor will traverse the prototype chain looking for the constructor property, which points to the function that serves as the constructor for the object at hand. For most objects, the constructor property will point to Function Object() {...} that's part of Object.prototype. e.g. above, rose's prototype is gold, but its constructor points to Function Object on Object.prototype.
+
+For Array.prototype, its prototype is still Object.prototype, but Array.prototype has its own constructor property that points to Function Array() {...} just how Object.prototype has its own constructor property, thus array.constructor will point to Function Array() for most arrays
+
+************************************
+/**** Object Decorator Pattern ****/
+************************************
+
+******************************
+/**** Functional Classes ****/
+******************************
+
+******************************
+/**** Prototypal Classes ****/
+******************************
+
+************************************
+/**** Pseudoclassical Patterns ****/
+************************************
+
+*************************************
+/**** Superclass and Subclasses ****/
+*************************************
+
+**************************************
+/**** Pseudoclassical Subclasses ****/
+**************************************
