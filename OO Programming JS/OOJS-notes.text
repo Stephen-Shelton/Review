@@ -1,3 +1,15 @@
+Sections
+1) Scopes
+2) Closures
+3) The 'this' keyword
+4) Prototype Chains
+5) Object Decorator Pattern
+6) Functional Classes
+7) Prototypal Classes
+8) Pseudoclassical Patterns
+9) Superclass and Subclasses
+10) Pseudoclassical Subclasses
+
 ******************
 /**** Scopes ****/
 ******************
@@ -78,22 +90,133 @@ For Array.prototype, its prototype is still Object.prototype, but Array.prototyp
 ************************************
 /**** Object Decorator Pattern ****/
 ************************************
+Importance of refactoring repeated code:
+1) Consolidate code, refactoring reduces the amount of code you need to edit should you want to make changes to your app later
+2) Refactoring allows you to take numerous actions at once if those actions can be replicated on multiple variables
+
+Decorators take objects as inputs and add/manipulate object properties.
+
+example of decorator functions:
+  library w/ decorator function:
+    var carlike = function(obj, loc) {
+      obj.loc = loc;
+      obj.move = function() {
+        obj.loc++;
+      };
+      return obj; <-- closure variable obj, every time carlike is invoked a new closure scope is created
+    };
+
+  program:
+    var amy = carlike({}, 1); //establish amy object
+    amy.move(); //increase loc value on amy object
+    ben = carlike({}, 9); //establish ben object
+    ben.move(); //increase loc value on ben object
+
+2 objects made from the same function are still different objects. See notes on scopes and execution contexts above.
 
 ******************************
 /**** Functional Classes ****/
 ******************************
+Classes build objects they are going to augment. Unlike above, we don't need to pass an object as an argument to decorate it, the class creates the object for us with all the initial properties we need.
+
+Classes are functions/constructors that can create a fleet of similar objects that all conform to roughly the same interface. The class is the notion of the category of things you'd like to build, e.g. cars, and all the entailed code that supports that category, whereas the constructor is simply the function that you use to produce a new instance of that class. Objects that are returned are instances of the class, and calling the constructor function is called instantiating.
+
+  example of constructor for functional instantiation pattern:
+    var Car = function(loc) {
+      var obj = {loc: loc};
+      obj.move = function() {
+        obj.loc++;
+      };
+      return obj;
+    };
+
+Results in duplicated methods, e.g. move, for every instance of Car, this is memory/space intensive. Can get around this by declaring move outside of the constructor.
+
+    var Car = function(loc) {
+      var obj = {loc: loc};
+      obj.move = move;
+      return obj;
+    };
+
+    var move = function() {
+      this.move++;
+    };
+
+If you want to have many methods other than move, this process becomes cumbersome. Can get around this by putting methods in a separate object and using extend (from underscore or lodash) within Car to give the created object the necessary methods.
+
+    var Car = function(loc) {
+      var obj = {loc: loc};
+      extend(obj, Car.methods);
+      return obj;
+    };
+
+    Car.methods = {
+      move: function() {
+        this.loc++;
+      },
+      on: function() {...},
+      off: function() {...}
+    };
+
+Can add methods property to the Car constructor because functions are just specialized objects and can store their own properties. Invoking a function has no interaction with any of the properties of that function.
 
 ******************************
 /**** Prototypal Classes ****/
 ******************************
+Use Object.create to delegate properties from a prototype to child objects. Within the Car constructor, obj represents an instance of Car, and obj gets properties delegated to it from its prototype Car.methods. obj first gets created from Object.create and later gets loc added as a default property (loc not part of the prototype Car.methods).
+
+    var Car = function(loc) {
+      var obj = Object.create(Car.methods);
+      obj.loc = loc;
+      return obj;
+    };
+
+    Car.methods = {
+      move: function() {
+        this.loc++;
+      },
+      on: function() {...},
+      off: function() {...}
+    };
+
+    //Refactored if only using move method
+    var Car = function(loc) {
+      var obj = Object.create(Car.prototype);
+      obj.loc = loc;
+      return obj;
+    };
+    //prototype is an arbitrary name for the object that stores our methods, there's nothing special about it, it's purely cosmetic
+    Car.prototype.move = function() {
+      this.loc++;
+    };
+
+    The Car function does NOT delegate failed property lookups to Car.prototype/Car.methods, instead it'll delegate to Function.prototype where all functions delegate their property lookups. obj delegates to Car.prototype/Car.methods because we define the prototype in Object.create().
+
+    2 ways to talk about prototypes here:
+    VERY different thing to say...
+    1) Amy's prototype is Car.prototype.
+      amy, made from Car, is an object whose prototype is Car.prototype because Car.prototype was used as an argument for Object.create, e.g. Object.create(Car.prototype). amy will delegate to Car.prototype in the event of a failed property lookup.
+    versus...
+    2) Car's prototype is Car.prototype.
+      The constructor function Car has a property called prototype whose value is an object that stores methods given to obj. All functions come with the prototype property/object in case you want to store add'l values on it. "Car's prototype" can thus refer to Car's prototype property on the function, or the object it refers to during a failed property lookup (most likely Function.prototype).
+
+    Every .prototype property on a function also has a .constructor property which points back to the function it came attached to, e.g. Car.prototype.constructor points back to the Car function, thus Car.prototype.constructor is Car itself. Can use constructor property to figure out which constructor function built a certain object. All instances of a class delegate their failed lookups to their prototype, so they should all report as having the same constructor function.
+
+      e.g. amy.constructor is the Car function. amy delegates failed lookups to Car.prototype, an object that has the constructor property that points to the Car function.
+      Thus, amy.constructor === amy.__proto__.constructor
+
+    Can also use amy instanceof Car to verify that Car is amy's constructor, instanceof checks to see if Car exists in amy's prototype chain.
+
 
 ************************************
 /**** Pseudoclassical Patterns ****/
 ************************************
 
+
 *************************************
 /**** Superclass and Subclasses ****/
 *************************************
+
 
 **************************************
 /**** Pseudoclassical Subclasses ****/
