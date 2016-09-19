@@ -10,6 +10,7 @@ Sections
 9) Superclass and Subclasses
 10) Pseudoclassical Subclasses
 
+
 ******************
 /**** Scopes ****/
 ******************
@@ -20,11 +21,12 @@ e.g. someVariable = 5; <-- missing var, let, const
 
 Remember, only functions create new scopes, not the bodies of loops, if statements, etc.
 
-Execution contexts: aka in-memory scopes, differ from lexical scopes, execution contexts are built as the code runs and are created every time you run a function. For each lexical scope, there may be many execution contexts/in-memory scopes if a function is invoked many times. Execution contexts store variables and their values for a given function invocation.
+Execution contexts: aka in-memory scopes, differ from lexical scopes, execution contexts are built as the code runs and are created every time you run a function. For each lexical scope/function, there may be many execution contexts/in-memory scopes if a function is invoked many times. Execution contexts store variables and their values for a given function invocation.
 
 Remember, lexical scopes are created during function declarations, whereas execution contexts/in-memory scopes are created during function invocations. If a function is run multiple times, the lexical scope is constant but each execution context/in-memory scope is tied to each instance of the run function.
 
 In-memory objects: different than execution contexts/in-memory scopes, which are created only when a function runs. In-memory objects can be created whenever with whatever key value pairs you want. The main similarity is that execution contexts and in-memory objects store variables and associated values.
+
 
 ********************
 /**** Closures ****/
@@ -35,6 +37,7 @@ Closure is any private variables/values/functions defined in a function/inner le
   1) setTimeout
   2) returning the inner function when the outer function is invoked
   3) saving the inner function to a global variable
+
 
 ******************************
 /**** the 'this' keyword ****/
@@ -54,7 +57,7 @@ example:
 
     obj.fn(3,4); <--where 'this' is determined!
 
-    The object that a function/method is looked up upon when it's being invoked is the object the keyword 'this' is bound to. In the case above, obj looks up fn and invokes fn, so 'this' inside fn refers to obj, the object 'left of the dot'. The 'left of the dot/brackets' concept applies to 90% of situations when determining what 'this' is bound to. Remember, it's the object left of the dot/bracket during the method/function's invocation that matters, not where the method/function is defined or declared.
+    The object that looks up a function/method when the method is being invoked is the object the keyword 'this' is bound to. In the case above, obj looks up fn and invokes fn, so 'this' inside fn refers to obj, the object 'left of the dot'. The 'left of the dot/brackets' concept applies to 90% of situations when determining what 'this' is bound to. Remember, it's the object left of the dot/bracket during the method/function's invocation that matters, not where the method/function is defined or declared.
 
 Can override 'this' binding with apply, call, or bind methods of Function.prototype.
 example:
@@ -72,6 +75,7 @@ When 'this' is defined in a function used as a constructor, 'this' gets bound to
   e.g. new r.method(g,b); <-- instance of r.method is a new object bound to 'this'
 'new' keyword used in pseudoclassical instantiation patterns for objects
 
+
 ****************************
 /**** Prototype Chains ****/
 ****************************
@@ -85,7 +89,8 @@ Top-level object is Object.prototype, it's the last place where property lookups
 
 object.constructor will traverse the prototype chain looking for the constructor property, which points to the function that serves as the constructor for the object at hand. For most objects, the constructor property will point to Function Object() {...} that's part of Object.prototype. e.g. above, rose's prototype is gold, but its constructor points to Function Object on Object.prototype.
 
-For Array.prototype, its prototype is still Object.prototype, but Array.prototype has its own constructor property that points to Function Array() {...} just how Object.prototype has its own constructor property, thus array.constructor will point to Function Array() for most arrays
+For Array.prototype, its prototype is still Object.prototype, but Array.prototype has its own constructor property that points to Function Array() {...} just how Object.prototype has its own constructor property, thus arrayName.constructor will point to Function Array() for most arrays
+
 
 ************************************
 /**** Object Decorator Pattern ****/
@@ -113,6 +118,7 @@ example of decorator functions:
     ben.move(); //increase loc value on ben object
 
 2 objects made from the same function are still different objects. See notes on scopes and execution contexts above.
+
 
 ******************************
 /**** Functional Classes ****/
@@ -158,7 +164,8 @@ If you want to have many methods other than move, this process becomes cumbersom
       off: function() {...}
     };
 
-Can add methods property to the Car constructor because functions are just specialized objects and can store their own properties. Invoking a function has no interaction with any of the properties of that function.
+Can add the methods property to the Car constructor because functions are just specialized objects and can store their own properties. Invoking a function has no interaction with any of the properties of that function.
+
 
 ******************************
 /**** Prototypal Classes ****/
@@ -198,7 +205,7 @@ Use Object.create to delegate properties from a prototype to child objects. With
       amy, made from Car, is an object whose prototype is Car.prototype because Car.prototype was used as an argument for Object.create, e.g. Object.create(Car.prototype). amy will delegate to Car.prototype in the event of a failed property lookup.
     versus...
     2) Car's prototype is Car.prototype.
-      The constructor function Car has a property called prototype whose value is an object that stores methods given to obj. All functions come with the prototype property/object in case you want to store add'l values on it. "Car's prototype" can thus refer to Car's prototype property on the function, or the object it refers to during a failed property lookup (most likely Function.prototype).
+      The constructor function Car has a property called prototype whose value is an object that stores methods given to obj, e.g. Car.prototype.move. All functions come with the prototype property/object in case you want to store add'l values on it. "Car's prototype" can thus refer to Car's prototype property on the function, or the object it refers to during a failed property lookup (most likely Function.prototype).
 
     Every .prototype property on a function also has a .constructor property which points back to the function it came attached to, e.g. Car.prototype.constructor points back to the Car function, thus Car.prototype.constructor is Car itself. Can use constructor property to figure out which constructor function built a certain object. All instances of a class delegate their failed lookups to their prototype, so they should all report as having the same constructor function.
 
@@ -211,13 +218,95 @@ Use Object.create to delegate properties from a prototype to child objects. With
 ************************************
 /**** Pseudoclassical Patterns ****/
 ************************************
+In prototypical patterns, 2 things are constantly repeated that are streamlined in pseudoclassical patterns:
+  - creating the object, e.g. var obj = Object.create(Car.prototype);
+  - returning the object, e.g. return obj;
+
+Using the keyword 'new' before invoking the constructor function basically mimics creating and returning the object.
+  e.g. this = Object.create(Car.prototype) and return this;
+
+example:
+    var Car = function(loc) {
+      this.loc = loc;
+    }
+
+    var amy = new Car(1);
+    var ben = new Car(9);
+
+For functional, prototypal, and pseudoclassical, writing classes consists of 2 parts:
+  1) specifying how each instance should be different from all other instances
+      e.g. values for loc prop should differ based on arg passed in
+      var Car = function(loc) {
+        this.loc = loc;
+      }
+  2) specifying how each instance should be the same as all other instances
+      move method increases loc by 1 for all instances of Car. These types of props are placed in the prototype prop for pseudoclassical patterns, but can be placed in other props for prototypal and functional patterns (.methods, .prototype, etc).
+
+      Car.prototype.move = function() {
+        this.loc++;
+      }
+
+There is no 'best' class pattern, there are only techniques and options.
 
 
 *************************************
 /**** Superclass and Subclasses ****/
 *************************************
+Superclasses can create fleets of similar objects AND delegate properties to subclasses.
+
+  example using functional pattern:
+      //Car superclass, creates a generic car, and delegates props to Van and Cop.
+      var Car = function(loc) {
+        var obj = {loc: loc};
+        obj.move = function() {
+          obj.loc++;
+        };
+        return obj;
+      };
+      //Van subclass, gets loc and move props from Car, while grab is unique to Van
+      var Van = function(loc) {
+        var obj = Car(loc);
+        obj.grab = function() {//do stuff};
+        return obj;
+      };
+      //Cop subclass, gets loc and move props from Car, while call is unique to Cop
+      var Cop = function(loc) {
+        var obj = Car(loc);
+        obj.call = function() {//do stuff};
+        return obj;
+      }
 
 
 **************************************
 /**** Pseudoclassical Subclasses ****/
 **************************************
+Process to make super and subclasses different for pseudoclassical pattern.
+
+example:
+    var Car = function(loc) {
+      this.loc = loc;
+    };
+
+    Car.prototype.move = function() {
+      this.loc++;
+    }
+
+    var Van = function(loc) {
+      Car.call(this, loc); <--invoke Car with 'this' so that Car's 'this' parameter is bound to the Van instance, basically wires up Car to Van (but NOT Car.prototype to Van)
+    }
+
+    Van.prototype = Object.create(Car.prototype); <--wires up Van.prototype to Car.prototype in the case of failed prop lookups on Van. Makes amy.move work properly. However, when the new blank object is created, it overrides what was on Van.prototype, which contained a .constructor property pointing to Van.
+
+    Van.prototype.constructor = Van; <--need to add this back in to fix the broken constructor property
+
+    //zed is an object made from the superclass of Car
+    var zed = new Car(3);
+    zed.move();
+
+    //amy is an object made from the subclass of Van
+    var amy = new Van(9);
+    amy.loc; <--inherited from Car
+    amy.move(); <--inherited from Car.prototype
+    amy.grab(); <--defined on Van subclass
+
+Remember constructor function and prototype serve different purposes.
